@@ -1,0 +1,7 @@
+- [firefox]: "Save password?" is annoying -> remove through settings
+- [fish]: alias "nix-shell" to "nix-shell --run fish"
+- [fish]: display indicators for Nix shells and SSH
+- [impermanence]: I never used the 30 days root backup; get rid of it (maybe keey only last root?)
+- [polybar]: add battery indicators
+- [neovim]: remove LSP support and other unnecessary features
+- [neovim]: look for convenient URL opening
