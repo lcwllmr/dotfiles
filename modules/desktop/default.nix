@@ -4,5 +4,6 @@
     ./multi-monitor.nix
     ./firefox.nix
     ./zed.nix
+    ./obsidian.nix
   ];
 }

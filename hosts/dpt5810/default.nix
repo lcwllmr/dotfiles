@@ -57,8 +57,8 @@ inputs.nixpkgs.lib.nixosSystem {
         multipleDisplays = true;
         firefox = true;
         zed = true;
+        obsidian = true;
       };
     }
   ];
 }
-
