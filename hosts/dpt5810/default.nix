@@ -50,6 +50,17 @@ inputs.nixpkgs.lib.nixosSystem {
         };
         neovim = true;
         develop = true;
+        rclone = {
+          enable = true;
+          remoteName = "cloud";
+          syncDrives = [
+            {
+              name = "zettelkasten";
+              localPath = "~/.local/zettelkasten";
+              cloudPath = "/zettelkasten";
+            }
+          ];
+        };
       };
 
       desktop = {

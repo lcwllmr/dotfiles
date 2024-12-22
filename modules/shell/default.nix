@@ -5,5 +5,6 @@
     ./git.nix
     ./neovim
     ./develop.nix
+    ./rclone.nix
   ];
 }
