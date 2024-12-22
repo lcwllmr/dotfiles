@@ -34,8 +34,8 @@ with lib;
             driveNamesString = lib.strings.concatStringsSep " " driveNames;
             makeDriveCase = driveConfig: ''
               case ${driveConfig.name}
-                set localPath "${driveConfig.localPath}"
-                set cloudPath "${remoteName}:${driveConfig.cloudPath}"
+                set localPath ${driveConfig.localPath}
+                set cloudPath ${remoteName}:${driveConfig.cloudPath}
             '';
             driveCases = map makeDriveCase drives;
             driveCasesString = lib.strings.concatLines driveCases;
