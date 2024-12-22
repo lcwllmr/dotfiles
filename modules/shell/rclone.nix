@@ -48,7 +48,10 @@ with lib;
             set drives ${driveNamesString}
             set drivearg 'd/drive=!contains $_flag_value $drives'
 
-            argparse --name=cloudsync $modearg $drivearg -- $argv
+            # exactly like for rclone
+            set dryarg 'dry'
+
+            argparse --name=cloudsync $modearg $drivearg $dryarg -- $argv
 
 
             if not set -q _flag_mode
@@ -83,10 +86,19 @@ with lib;
                 return
             end
 
-            echo Starting sync
-            echo "Source: $src"
-            echo "Destination: $dst"
-            ${pkgs.rclone}/bin/rclone sync -P --metadata $src $dst
+            if set -q _flag_dry
+              echo "Starting sync (only dry run)"
+              echo "Source: $src"
+              echo "Destination: $dst"
+              ${pkgs.rclone}/bin/rclone sync -P --metadata --dry-run $src $dst
+            else
+              echo Starting sync
+              echo "Source: $src"
+              echo "Destination: $dst"
+              ${pkgs.rclone}/bin/rclone sync -P --metadata $src $dst
+            end
+
+
           '')
         )
       ];
