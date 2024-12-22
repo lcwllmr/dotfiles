@@ -42,10 +42,25 @@ with lib;
 
           set -g __fish_git_prompt_showdirtystate 1
         '';
+        shellAliases = {
+          nix-shell = "nix-shell --run fish";
+        };
         functions = {
           fish_prompt = {
             body = ''
-              echo (prompt_pwd --full-length-dirs 1) (fish_git_prompt) '> '
+              set promptParts (set_color -o brwhite) "| "
+
+              if test -n "$IN_NIX_SHELL"
+                set promptParts $promptParts (set_color green) "[nix-shell] "
+              end
+
+              set promptParts $promptParts (set_color normal)
+              set promptParts $promptParts (prompt_pwd --full-length-dirs 1)
+              set promptParts $promptParts (fish_git_prompt)
+              set promptParts $promptParts (set_color -o brwhite) ' > '
+              set promptParts $promptParts (set_color normal)
+
+              string join "" -- $promptParts
             '';
           };
           fish_mode_prompt.body = "";
