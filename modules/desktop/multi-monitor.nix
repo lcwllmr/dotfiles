@@ -19,7 +19,7 @@ with lib;
 
     home-manager.users.${config.core.user} = {
       home.packages = [
-        (pkgs.writeScriptBin "try-default-monitor-layout.fish" ''
+        (pkgs.writeScriptBin "try-default-monitor-layout" ''
           #!/usr/bin/env fish
 
           if test -f /home/${config.core.user}/.screenlayout/default.sh
@@ -29,7 +29,10 @@ with lib;
       ];
 
       xsession.windowManager.i3.config.startup = [
-        { command = "try-default-monitor-layout.fish"; }
+        {
+          command = "try-default-monitor-layout";
+          notification = false;
+        }
       ];
     };
 
