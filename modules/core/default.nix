@@ -9,5 +9,6 @@
     ./automount.nix
     ./laptop.nix
     ./stylix
+    ./tailscale.nix
   ];
 }

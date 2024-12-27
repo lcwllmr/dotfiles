@@ -33,6 +33,11 @@ inputs.nixpkgs.lib.nixosSystem {
         laptop = false;
         autoMountDrives = true;
 
+        tailscale = {
+          enable = true;
+          isServer = false;
+        };
+
         stylix = {
           enable = true;
           fontSize = 9;
