@@ -11,6 +11,10 @@ with lib;
 
       activeOpacity = 1.0;
       inactiveOpacity = 0.8;
+
+      opacityRules = [
+        "100:class_g = 'i3lock'" # Important: screen contents revealed otherwise
+      ];
     };
 
     home-manager.users.${config.core.user} = {
