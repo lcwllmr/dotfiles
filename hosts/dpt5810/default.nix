@@ -1,7 +1,6 @@
 {
   inputs,
   globals,
-  overlays,
   ...
 }:
 inputs.nixpkgs.lib.nixosSystem {
@@ -17,8 +16,6 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/shell
     ../../modules/desktop
     {
-      nixpkgs.overlays = overlays;
-
       core = {
         stateVersion = "24.11";
         user = globals.ghName;
