@@ -53,7 +53,7 @@ inputs.nixpkgs.lib.nixosSystem {
           name = globals.ghName;
           email = globals.ghEmail;
         };
-        neovim = true;
+        helix = true;
         develop = true;
         rclone = {
           enable = true;
