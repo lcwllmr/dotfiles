@@ -72,7 +72,6 @@ inputs.nixpkgs.lib.nixosSystem {
         i3 = true;
         multipleDisplays = true;
         firefox = true;
-        zed = true;
         obsidian = true;
       };
     }
