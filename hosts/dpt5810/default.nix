@@ -15,6 +15,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/core
     ../../modules/shell
     ../../modules/desktop
+    ../../modules
     {
       core = {
         stateVersion = "24.11";
@@ -50,7 +51,6 @@ inputs.nixpkgs.lib.nixosSystem {
           name = globals.ghName;
           email = globals.ghEmail;
         };
-        helix = true;
         develop = true;
         rclone = {
           enable = true;
