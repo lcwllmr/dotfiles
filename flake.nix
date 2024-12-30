@@ -29,6 +29,7 @@
     {
       nixosConfigurations = {
         dpt5810 = import ./hosts/dpt5810 { inherit inputs globals; };
+        ltm715q = import ./hosts/ltm715q.nix { inherit inputs globals; };
       };
     };
 }
