@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
 {
   options.desktop = {
@@ -6,6 +11,7 @@ with lib;
   };
 
   imports = [
+    ./keymap.nix
     ./polybar.nix
     ./picom.nix
     ./session.nix
@@ -15,10 +21,16 @@ with lib;
   ];
 
   config = mkIf config.desktop.i3 {
-    hardware.graphics.enable = true;
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
     services.libinput.enable = true;
 
-    environment.systemPackages = [ pkgs.dmenu pkgs.xclip ];
+    environment.systemPackages = [
+      pkgs.dmenu
+      pkgs.xclip
+    ];
 
     services.xserver = {
       enable = true;
@@ -39,7 +51,6 @@ with lib;
         user = config.core.user;
       };
     };
-
 
     home-manager.users.${config.core.user} = {
 
@@ -79,23 +90,20 @@ with lib;
             "${modifier}+Shift+e" = "exec --no-startup-id dmenu-session-exit"; # see ./session.nix
             "${modifier}+Shift+q" = "kill";
 
-            "${modifier}+Left" = "focus left";
-            "${modifier}+Down" = "focus down";
-            "${modifier}+Up" = "focus up";
-            "${modifier}+Right" = "focus right";
             "${modifier}+h" = "focus left";
             "${modifier}+j" = "focus down";
             "${modifier}+k" = "focus up";
             "${modifier}+l" = "focus right";
 
-            "${modifier}+Shift+Left" = "move left";
-            "${modifier}+Shift+Down" = "move down";
-            "${modifier}+Shift+Up" = "move up";
-            "${modifier}+Shift+Right" = "move right";
             "${modifier}+Shift+h" = "move left";
             "${modifier}+Shift+j" = "move down";
             "${modifier}+Shift+k" = "move up";
             "${modifier}+Shift+l" = "move right";
+
+            "${modifier}+Ctrl+Shift+h" = "move container to output left";
+            "${modifier}+Ctrl+Shift+j" = "move container to output down";
+            "${modifier}+Ctrl+Shift+k" = "move container to output up";
+            "${modifier}+Ctrl+Shift+l" = "move container to output right";
 
             "${modifier}+i" = "split h"; # avoid collision with vim key h
             "${modifier}+v" = "split v";
