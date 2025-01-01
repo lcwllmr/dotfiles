@@ -2,3 +2,7 @@
 name = "nix"
 auto-format = true
 formatter = { command = "nixfmt" }
+
+[[language]]
+name = "markdown"
+indent = { tab-width = 2, unit = "  " }
