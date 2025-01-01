@@ -6,11 +6,14 @@
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   modules = [
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
     (
       { pkgs, ... }:
       {
-        hardware.enableRedistributableFirmware = true;
-        hardware.cpu.amd.updateMicrocode = true;
+        # this switches on enableRedistributableFirmware which in turn enables amd microcodes through nixos-hardware
+        nixpkgs.config.allowUnfree = true;
+        hardware.enableAllFirmware = true;
 
         boot.loader.grub.enable = true;
         boot.loader.grub.device = "nodev";
