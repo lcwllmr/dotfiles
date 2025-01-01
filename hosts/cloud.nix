@@ -39,7 +39,7 @@ inputs.nixpkgs.lib.nixosSystem {
         time.timeZone = "Europe/Berlin";
         i18n.defaultLocale = "en_US.UTF-8";
 
-        networking.hostName = "ltm715q";
+        networking.hostName = "cloud";
         networking.interfaces.enp1s0f0.useDHCP = true;
         networking.enableIPv6 = true;
         networking.nameservers = [ "1.1.1.1" ];
