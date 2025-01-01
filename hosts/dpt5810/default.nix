@@ -17,6 +17,13 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/desktop
     ../../modules
     {
+      # TODO: put this somewhere and forget about it. I can't nicely persist
+      #       this file with impermanence so just generate one manually.
+      #       see https://www.freedesktop.org/software/systemd/man/latest/machine-id.html
+      environment.etc.machine-id = {
+        user = "root";
+        text = "49254d0ed2a807b6f3936d2d6eb42b22\n";
+      };
       core = {
         stateVersion = "24.11";
         user = globals.ghName;
