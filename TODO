@@ -1,4 +1,27 @@
+CONCRETE
 - [firefox]: "Save password?" is annoying -> remove through settings
 - [fish]: display indicators for SSH login as soon as I setup servers
 - [impermanence]: I never used the 30 days root backup; get rid of it (maybe keey only last root?)
 - [polybar]: add battery indicators
+- [i3]: pull multi-monitor stuff into main module and add dmenu selector
+- [i3]: add option that lets other modules add keybindings (particularly )
+- [dotfiles]: add devShell with makefile for common operations like `make this`, `make [ssh host]`, make [ssh host complete reinstall]
+- [vscode]: add package with basic config for nix development
+- [impermanence]: add nix expression that shows me the tree of dirs and files in the /persist volume. 
+  As I'm experimenting I find that it's cluttering up so a quick visual diff would be nice to show me
+  what's not needed anymore
+
+CONCEPTUAL
+- I'd like a way to integrate the disko layouts very tightly into the main config;
+  for instance, impermenance requires a very specific layout and I want it to be secured without 
+  actually writing it; possible options:
+  - `config.bootDrive = { impermanence; encrypted; }`
+  - `config.extraDrives = { [zfsPool ...] [simpleDrive ...] }`
+- maybe it would be nice to have an imperative way to do some post-config. modules that need
+  it could simply add script parts which a module would accumulate and put into nix store.
+  possible use cases:
+  - restore ssh key from melt seed phrase using bitwarden just using own hostname
+  - fetch my rclone config for the various modules that need cloud sync
+  - execute commands that enroll keys into the TPM automatically
+
+
