@@ -18,17 +18,36 @@
   };
 
   outputs =
-    { ... }@inputs:
+    { nixpkgs, ... }@inputs:
     let
       globals = {
         ghName = "lcwllmr";
         ghEmail = "159539641+lcwllmr@users.noreply.github.com";
       };
+
+      supportedSystems = [
+        "x86_64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
       nixosConfigurations = {
         dpt5810 = import ./hosts/dpt5810 { inherit inputs globals; };
         cloud = import ./hosts/cloud.nix { inherit inputs globals; };
       };
+
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              gnumake
+            ];
+          };
+        }
+      );
     };
 }
