@@ -5,18 +5,17 @@
 }:
 with lib;
 {
-  options.constructor.services = {
-    ssh = mkEnableOption "Set up key-only SSH server";
+  options.machine.services = {
+    sshd = mkEnableOption "Set up key-only SSH server";
   };
 
-  config = mkIf config.constructor.services.ssh {
+  config = mkIf config.machine.services.sshd {
     services.openssh = {
       enable = true;
 
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
-        AllowUsers = [ "lcwllmr" ];
       };
     };
 

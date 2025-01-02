@@ -8,7 +8,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    ../modules/services/ssh.nix
+    ../modules/services
     (
       { pkgs, ... }:
       {
@@ -55,7 +55,11 @@ inputs.nixpkgs.lib.nixosSystem {
           hashedPassword = "$y$j9T$5U3e8OIGQBqUg0kKEoScJ0$9R6aGDgyJ7CQmUKsXMxdKg.FgHlno.fFTtolDvYB6J8";
         };
 
-        systemBuild.services.ssh = true;
+        machine = {
+          services = {
+            sshd = true;
+          };
+        };
 
         services.tailscale.enable = true;
 
