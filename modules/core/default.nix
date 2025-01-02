@@ -1,6 +1,8 @@
 {
   imports = [
     ./user.nix
+
+    ./user_old.nix
     ./geointl.nix
     ./nix.nix
     ./impermanence.nix

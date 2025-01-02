@@ -9,6 +9,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ../modules/services
+    ../modules/core/user.nix
     (
       { pkgs, ... }:
       {
@@ -56,6 +57,9 @@ inputs.nixpkgs.lib.nixosSystem {
         };
 
         machine = {
+          core = {
+            user = "lcwllmr";
+          };
           services = {
             sshd = true;
           };
