@@ -5,6 +5,7 @@
 }:
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
+  specialArgs = { inherit inputs; };
   modules = [
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
@@ -16,7 +17,9 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/shell
     ../../modules/desktop
     ../../modules
+    ../../modules/core/sops.nix
     {
+      sops.secrets.cloud.hashedUserPassword.neededFOr
       # TODO: put this somewhere and forget about it. I can't nicely persist
       #       this file with impermanence so just generate one manually.
       #       see https://www.freedesktop.org/software/systemd/man/latest/machine-id.html

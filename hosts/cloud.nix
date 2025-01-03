@@ -5,11 +5,13 @@
 }:
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
+  specialArgs = { inherit inputs; };
   modules = [
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ../modules/services
     ../modules/core/user.nix
+    ../modules/core/sops.nix
     (
       { pkgs, ... }:
       {
@@ -36,29 +38,42 @@ inputs.nixpkgs.lib.nixosSystem {
           "usb_storage"
           "sd_mod"
           "sr_mod"
+
+          # manual
+          "r8169" # output of lshw -C network; needed for dropbear
         ];
         boot.initrd.kernelModules = [ ];
         boot.kernelModules = [ "kvm-amd" ];
         boot.extraModulePackages = [ ];
 
+        boot.initrd.network = {
+          enable = true;
+          ssh = {
+            enable = true;
+            port = 2222;
+            hostKeys = [
+              "/boot/dropbear_ed25519_host_key"
+            ];
+            authorizedKeys = [
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIy3L442S1wAPtaa92tw+XYx0G2VXj+XjtbxCZ5+xE21"
+            ];
+          };
+          postCommands = ''
+            echo 'cryptsetup-askpass' >> /root/.profile
+          '';
+        };
+
         time.timeZone = "Europe/Berlin";
         i18n.defaultLocale = "en_US.UTF-8";
 
         networking.hostName = "cloud";
-        networking.interfaces.enp1s0f0.useDHCP = true;
+        networking.useDHCP = true;
         networking.enableIPv6 = true;
         networking.nameservers = [ "1.1.1.1" ];
 
-        users.users.root.hashedPassword = "$y$j9T$5U3e8OIGQBqUg0kKEoScJ0$9R6aGDgyJ7CQmUKsXMxdKg.FgHlno.fFTtolDvYB6J8";
-        users.users.lcwllmr = {
-          isNormalUser = true;
-          extraGroups = [ "wheel" ];
-          hashedPassword = "$y$j9T$5U3e8OIGQBqUg0kKEoScJ0$9R6aGDgyJ7CQmUKsXMxdKg.FgHlno.fFTtolDvYB6J8";
-        };
-
         machine = {
           core = {
-            user = "lcwllmr";
+            user = globals.ghName;
           };
           services = {
             sshd = true;

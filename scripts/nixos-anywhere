@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -x
+
+MACHINE=$1
+SSH_HOST=$2
+
+COPYDIR=$(mktemp -d)
+
+stty -echo
+printf "Enter SSH seed phrase: "
+read SSH_SEED
+stty echo
+printf "\n"
+SSH_KEY_DIR="${COPYDIR}/tmp"
+mkdir -p ${SSH_KEY_DIR}
+SSH_KEY_PATH="${SSH_KEY_DIR}/id_ed25519"
+melt restore --seed "${SSH_SEED}" ${SSH_KEY_PATH}
+
+# TODO: add test against public key in misc/ssh-public-keys
+
+AGE_KEY_DIR="${COPYDIR}/var/lib/sops-nix"
+mkdir -p ${AGE_KEY_DIR}
+AGE_KEY_PATH="${AGE_KEY_DIR}/key.txt"
+ssh-to-age -private-key -i ${SSH_KEY_PATH} > ${AGE_KEY_PATH}
+
+DROPBEAR_KEY_DIR=${COPYDIR}/boot
+mkdir -p ${DROPBEAR_KEY_DIR}
+ssh-keygen -t ed25519 -N "" -f ${DROPBEAR_KEY_DIR}/dropbear_ed25519_host_key
+
+
+nixos-anywhere --flake .#${MACHINE} --target-host ${SSH_HOST} --extra-files ${COPYDIR}

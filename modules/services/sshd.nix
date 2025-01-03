@@ -14,21 +14,23 @@ with lib;
       enable = true;
 
       settings = {
-        PermitRootLogin = "no";
+        PermitRootLogin = "yes";
         PasswordAuthentication = false;
       };
     };
 
     # authorize all public keys from this repo
-    users.users.lcwllmr.openssh.authorizedKeys = {
-      keys =
-        let
-          publicKeyPath = ../../misc/ssh-public-keys;
-          publicKeyFilesAttrset = builtins.readDir publicKeyPath;
-          publicKeyFilesnames = attrNames publicKeyFilesAttrset;
-          publicKeyFiles = map (fn: publicKeyPath + ("/" + fn)) publicKeyFilesnames;
-        in
-        map readFile publicKeyFiles;
-    };
+    users.users =
+      let
+        publicKeyPath = ../../misc/ssh-public-keys;
+        publicKeyFilesAttrset = builtins.readDir publicKeyPath;
+        publicKeyFilesnames = attrNames publicKeyFilesAttrset;
+        publicKeyFiles = map (fn: publicKeyPath + ("/" + fn)) publicKeyFilesnames;
+        publicKeys = map readFile publicKeyFiles;
+      in
+      {
+        ${config.machine.core.user}.openssh.authorizedKeys.keys = publicKeys;
+        root.openssh.authorizedKeys.keys = publicKeys;
+      };
   };
 }

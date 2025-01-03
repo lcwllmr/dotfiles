@@ -12,9 +12,11 @@ with lib;
     };
   };
 
-  config.users.users.${config.machine.core.user} = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    hashedPassword = "$y$j9T$5U3e8OIGQBqUg0kKEoScJ0$9R6aGDgyJ7CQmUKsXMxdKg.FgHlno.fFTtolDvYB6J8";
+  config = {
+    users.users.${config.machine.core.user} = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ];
+      hashedPasswordFile = config.sops.secrets.hashedUserPassword.path;
+    };
   };
 }

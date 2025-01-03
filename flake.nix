@@ -15,6 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -34,6 +35,7 @@
       nixosConfigurations = {
         dpt5810 = import ./hosts/dpt5810 { inherit inputs globals; };
         cloud = import ./hosts/cloud.nix { inherit inputs globals; };
+        endor = import ./hosts/endor.nix { inherit inputs globals; };
       };
 
       devShells = forAllSystems (
@@ -45,6 +47,11 @@
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
               gnumake
+              sops
+              age
+              ssh-to-age
+              melt
+              nixos-anywhere
             ];
           };
         }

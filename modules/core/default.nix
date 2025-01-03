@@ -1,6 +1,6 @@
 {
   imports = [
-    ./user.nix
+    ./sops.nix
 
     ./user_old.nix
     ./geointl.nix

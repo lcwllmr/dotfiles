@@ -1,0 +1,8 @@
+keys:
+  - &kashyyyk age10xs0jrmgklcrnzhcwrhhezrryk59furx29k8wuet74s0fk3vuuxq0uhgr0
+creation_rules:
+  - path_regex: misc/secrets.yaml
+    key_groups:
+    - age:
+      - *kashyyyk
+
