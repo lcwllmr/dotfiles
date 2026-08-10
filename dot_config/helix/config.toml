@@ -1,0 +1,17 @@
+theme = "github_dark"
+
+[editor]
+line-number = "relative"
+cursorline = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+git-ignore = true
+hidden = false
+
+[editor.soft-wrap]
+enable = true

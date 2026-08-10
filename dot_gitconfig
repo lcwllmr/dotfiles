@@ -1,0 +1,19 @@
+[user]
+name = "lcwllmr"
+email = "159539641+lcwllmr@users.noreply.github.com"
+signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICA6ESzr6Diu/u9WWKYqYlPVOwn/A8Psl4lbMEyPgbSg"
+
+[gpg]
+format = ssh
+
+[init]
+defaultBranch = "main"
+
+[commit]
+gpgsign = true
+
+[push]
+autoSetupRemote = true
+
+[alias]
+fast-commit = commit -m '' --allow-empty-message

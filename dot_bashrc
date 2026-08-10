@@ -1,0 +1,34 @@
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+export SSH_AUTH_SOCK=/home/lcwllmr/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock
+export EDITOR=hx
+export PATH=$PATH:~/.local/bin
+
+set -o vi
+
+source /usr/share/git-core/contrib/completion/git-prompt.sh
+function build_prompt() {
+  local location_part=""
+  if [[ -n "$SSH_CONNECTION" ]]; then
+      location_part+="$(printf "%s@%s:" "$USER" "$HOSTNAME")"
+  fi
+  location_part+="\w"
+
+  GIT_PS1_SHOWDIRTYSTATE="1"
+  GIT_PS1_SHOWSTASHSTATE="1"
+  GIT_PS1_SHOWUNTRACKEDFILES="1"
+  GIT_PS1_SHOWUPSTREAM="auto"
+  git_part="$(__git_ps1 " (%s)")"
+
+  green='\[\033[1;32m\]'
+  reset='\[\033[0m\]'
+  PS1="${green}[ ${location_part}${git_part} ]\$${reset} "
+}
+PROMPT_COMMAND=build_prompt
+
+source "$HOME/.cargo/env"
+
+export PATH=$PATH:~/.juliaup/bin
+[ -f "~/.julia/juliaup/completions/bash.sh" ] && source "~/.julia/juliaup/completions/bash.sh"
