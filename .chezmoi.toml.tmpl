@@ -1,0 +1,12 @@
+{{- $is_desktop := false -}}
+
+{{- $gitprompt := "" -}}
+{{- if eq .chezmoi.osRelease.id "ubuntu" -}}
+{{-   $gitprompt = "/usr/lib/git-core/git-sh-prompt" -}}
+{{- else -}}
+{{-   $gitprompt = "/usr/share/git-core/contrib/completion/git-prompt.sh" -}}
+{{- end -}}
+
+[data]
+	is_desktop = {{ $is_desktop }}
+	gitprompt = {{ $gitprompt | quote }}

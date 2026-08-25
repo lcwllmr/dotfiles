@@ -1,14 +1,18 @@
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
-
+{{- if .is_desktop }}
 export SSH_AUTH_SOCK=/home/lcwllmr/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock
+{{- else }}
+if [ -z "$SSH_AUTH_SOCK" ] || ! ssh-add -l >/dev/null 2>&1; then
+    eval "$(ssh-agent -s)" >/dev/null
+fi
+{{- end }}
+
 export EDITOR=hx
+export VISUAL=hx
 export PATH=$PATH:~/.local/bin
 
 set -o vi
 
-source /usr/share/git-core/contrib/completion/git-prompt.sh
+source {{ .gitprompt }}
 function build_prompt() {
   local location_part=""
   if [[ -n "$SSH_CONNECTION" ]]; then
