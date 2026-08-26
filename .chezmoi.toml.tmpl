@@ -1,11 +1,13 @@
 {{- $is_desktop := false -}}
 
-{{- $gitprompt := "" -}}
-{{- if eq .chezmoi.osRelease.id "ubuntu" -}}
-{{-   $gitprompt = "/usr/lib/git-core/git-sh-prompt" -}}
-{{- else -}}
-{{-   $gitprompt = "/usr/share/git-core/contrib/completion/git-prompt.sh" -}}
-{{- end -}}
+{{- $gitprompt := "/usr/share/git-core/contrib/completion/git-prompt.sh" }}
+{{- if hasKey .chezmoi "osRelease" }}
+  {{- if eq .chezmoi.osRelease.id "ubuntu" }}
+    {{- $gitprompt = "/usr/lib/git-core/git-sh-prompt" }}
+  {{- else if eq .chezmoi.osRelease.id "nixos" }}
+    {{- $gitprompt = "/run/current-system/sw/share/bash-completion/completions/git-prompt.sh" }}
+  {{- end }}
+{{- end }}
 
 [data]
 	is_desktop = {{ $is_desktop }}
