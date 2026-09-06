@@ -8,7 +8,7 @@ fi
 
 export EDITOR=hx
 export VISUAL=hx
-export PATH=$PATH:~/.local/bin
+export PATH="~/.local/bin:$PATH"
 
 set -o vi
 
@@ -34,5 +34,5 @@ PROMPT_COMMAND=build_prompt
 
 source "$HOME/.cargo/env"
 
-export PATH=$PATH:~/.juliaup/bin
+export PATH="~/.juliaup/bin:~/.julia/bin:$PATH"
 [ -f "~/.julia/juliaup/completions/bash.sh" ] && source "~/.julia/juliaup/completions/bash.sh"
