@@ -1,3 +1,18 @@
+export EDITOR=hx
+export VISUAL=hx
+export PATH="~/.local/bin:$PATH"
+source "$HOME/.cargo/env"
+export PATH="~/.juliaup/bin:~/.julia/bin:$PATH"
+[ -f "~/.julia/juliaup/completions/bash.sh" ] && source "~/.julia/juliaup/completions/bash.sh"
+
+# guard non-interactive shell and early execution
+[[ $- != *i* ]] && return
+
+# If running interactively, flush any unread DA responses or handshake debris
+if [[ $- == *i* ]] && [ -t 0 ]; then
+    read -t 0.05 -n 1000 -s _ < /dev/tty 2>/dev/null || true
+fi
+
 {{- if .is_desktop }}
 export SSH_AUTH_SOCK=/home/lcwllmr/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock
 {{- else }}
@@ -6,12 +21,12 @@ if [ -z "$SSH_AUTH_SOCK" ] || ! ssh-add -l >/dev/null 2>&1; then
 fi
 {{- end }}
 
-export EDITOR=hx
-export VISUAL=hx
-export PATH="~/.local/bin:$PATH"
-
 set -o vi
-
+# Plain DECSCUSR escapes — works both inside tmux and naked outside tmux
+# Readline 4.4+ requires \1 and \2 around non-printing escape sequences
+bind 'set show-mode-in-prompt on'
+bind 'set vi-ins-mode-string \1\e[6 q\2'
+bind 'set vi-cmd-mode-string \1\e[2 q\2'
 source {{ .gitprompt }}
 function build_prompt() {
   local location_part=""
@@ -32,7 +47,3 @@ function build_prompt() {
 }
 PROMPT_COMMAND=build_prompt
 
-source "$HOME/.cargo/env"
-
-export PATH="~/.juliaup/bin:~/.julia/bin:$PATH"
-[ -f "~/.julia/juliaup/completions/bash.sh" ] && source "~/.julia/juliaup/completions/bash.sh"
